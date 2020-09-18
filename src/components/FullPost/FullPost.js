@@ -8,7 +8,7 @@ class FullPost extends Component {
         fullPost : null
     }
     deleteHandler = () =>{
-        axios.delete("https://jsonplaceholder.typicode.com/posts/"+this.state.fullPost.id).then((res) =>{
+        axios.delete("/posts/"+this.state.fullPost.id).then((res) =>{
             console.log(res);
         })
     }
@@ -18,7 +18,7 @@ class FullPost extends Component {
             if(!this.state.fullPost || (this.state.fullPost && this.state.fullPost.id !== this.props.id)){
                 // do not update state if new data is not fetched because every update will trigger this lifecycle hook and cause infinite loop
                 // get backend data.
-                axios.get('https://jsonplaceholder.typicode.com/posts/'+this.props.id).then((res) =>{
+                axios.get('/posts/'+this.props.id).then((res) =>{
                     this.setState({fullPost: res.data});
                 })
             }
