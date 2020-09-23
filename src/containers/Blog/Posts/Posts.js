@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import Post from '../../../components/Post/Post';
 import './Posts.css';
 import axios from '../../../axios';
+import FullPost from '../FullPost/FullPost';
+import {Route} from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 class Posts extends Component {
 
     state = {
@@ -28,23 +31,26 @@ class Posts extends Component {
 
     getPostDetailsHandler = (id) => {
         console.log(id);
-        // axios.get('https://jsonplaceholder.typicode.com/posts/'+id).then((res) =>{
-        //     console.log(res);
-        //     this.setState({fullPost: res.data});
-        // });
-
-        this.setState({id: id});
+     // this.props.history.push({pathname: '/'+id});
+      this.props.history.push(this.props.match.url+'/'+id);
     }
 
     render(){
 
         let posts = <p>Sorry couldnot retrieve post</p>
         if(!this.state.showError){
-            posts = this.state.posts.map((post) => <Post key = {post.id} id = {post.id} getPostDetailsHandler = {this.getPostDetailsHandler} title = {post.title} author = {post.author} />)
+            posts = this.state.posts.map((post) => {
+            return (
+            // <Link to={'/'+post.id} key = {post.id}>
+            <Post key = {post.id} getPostDetailsHandler = {this.getPostDetailsHandler.bind(this, post.id)} title = {post.title} author = {post.author} />
+            // </Link>
+            )
+            })
         }
         return (
             <section className = "Posts">
                 {posts}
+                <Route path={this.props.match.url+"/:id"} component={FullPost} />
             </section>
         )
     }

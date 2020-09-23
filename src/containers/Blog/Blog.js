@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 // import axios from 'axios';
 // import Posts from '../../containers/Blog/Posts/Posts';
-import { Route, NavLink } from 'react-router-dom';
+import { Route, NavLink, Redirect, Switch } from 'react-router-dom';
 import './Blog.css';
 import Posts from './Posts/Posts';
 import NewPost from './NewPost/NewPost';
 
 class Blog extends Component {
 
-    
+    state = {
+        restrictNewPosts: true
+    }
     render () {
 
       
@@ -20,7 +22,7 @@ class Blog extends Component {
                         <ul>
                             <li>
                                 <NavLink 
-                                to="/"
+                                to="/posts"
                                 activeClassName = "my-active"
                                 exact>Home</NavLink>
                             </li>
@@ -44,8 +46,13 @@ class Blog extends Component {
                 </header>
                {/* <Route path="/" exact render = { () => <h1>Home</h1>}/>
                <Route path="/"  render = { () => <h1>Home again</h1>}/> */}
-               <Route path="/" exact component={Posts} />
-               <Route path="/new-post" exact component={NewPost} />
+               <Switch>
+               {/* if we want to restrict some route for authentication purpose we can do it by simply not loading route related to that component */}
+               {this.state.restrictNewPosts ? null : <Route path="/new-post" exact component={NewPost} />}
+               <Route path="/posts" component={Posts} />
+               <Redirect from = "/" to="/posts" />
+               {/* <Route render= {() => <h1>404 not found</h1>} /> //for page not found  */}
+               </Switch>
 
                 
             </div>

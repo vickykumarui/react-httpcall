@@ -4,7 +4,7 @@ import './Post.css';
 
 const post = (props) => {
     console.log("post props",props);
-    return (<article className="Post" onClick = {props.getPostDetailsHandler.bind(this, props.id)}>
+    return (<article className="Post" onClick = {props.getPostDetailsHandler}>
         <h1>{props.title}</h1>
         <div className="Info">
             <div className="Author">{props.author}</div>

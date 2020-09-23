@@ -12,13 +12,22 @@ class FullPost extends Component {
             console.log(res);
         })
     }
+    componentDidMount(){
+        this.getData();
+    }
+
     componentDidUpdate(){
-        if(this.props.id){
+        this.getData();
+    }
+
+    getData = ()=>{
+        console.log(this.props);
+        if(this.props.match.params.id){
             
-            if(!this.state.fullPost || (this.state.fullPost && this.state.fullPost.id !== this.props.id)){
+            if(!this.state.fullPost || (this.state.fullPost && this.state.fullPost.id != this.props.match.params.id)){
                 // do not update state if new data is not fetched because every update will trigger this lifecycle hook and cause infinite loop
                 // get backend data.
-                axios.get('/posts/'+this.props.id).then((res) =>{
+                axios.get('/posts/'+this.props.match.params.id).then((res) =>{
                     this.setState({fullPost: res.data});
                 })
             }
