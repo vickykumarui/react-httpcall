@@ -4,12 +4,18 @@ import React, { Component } from 'react';
 import { Route, NavLink, Redirect, Switch } from 'react-router-dom';
 import './Blog.css';
 import Posts from './Posts/Posts';
-import NewPost from './NewPost/NewPost';
+import LoadAsyncComponent from '../../hoc/asyncComponentself';
+// import asyncComponent from '../../hoc/asyncComponent';
+// import NewPost from './NewPost/NewPost';
+
+// const AsyncLoadPost = asyncComponent(() => {
+//     return import('./NewPost/NewPost');
+// });
 
 class Blog extends Component {
 
     state = {
-        restrictNewPosts: true
+        restrictNewPosts: false
     }
     render () {
 
@@ -48,7 +54,7 @@ class Blog extends Component {
                <Route path="/"  render = { () => <h1>Home again</h1>}/> */}
                <Switch>
                {/* if we want to restrict some route for authentication purpose we can do it by simply not loading route related to that component */}
-               {this.state.restrictNewPosts ? null : <Route path="/new-post" exact component={NewPost} />}
+               {this.state.restrictNewPosts ? null : <Route path="/new-post" exact component={LoadAsyncComponent(() => { return import('./NewPost/NewPost');})} />}
                <Route path="/posts" component={Posts} />
                <Redirect from = "/" to="/posts" />
                {/* <Route render= {() => <h1>404 not found</h1>} /> //for page not found  */}
